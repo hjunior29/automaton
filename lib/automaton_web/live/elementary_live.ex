@@ -44,99 +44,45 @@ defmodule AutomatonWeb.ElementaryLive do
           <p class="mt-1 text-base-content/60">{t(@locale, :elem_description)}</p>
         </div>
 
-        <%!-- Controls --%>
-        <div class="card bg-base-100 border border-base-300 shadow-lg mb-6">
-          <div class="card-body p-4">
-            <div class="flex flex-col lg:flex-row gap-4">
-              <%!-- Rule input --%>
-              <label class="form-control w-full lg:w-32">
-                <div class="label py-0">
-                  <span class="label-text text-xs font-semibold uppercase tracking-wider">
-                    {t(@locale, :elem_rule)}
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  name="rule"
-                  value={@rule}
-                  min="0"
-                  max="255"
-                  class="input input-bordered input-sm w-full"
-                  phx-change="set_rule"
-                  phx-debounce="300"
-                />
-              </label>
-
-              <%!-- Width input --%>
-              <label class="form-control w-full lg:w-32">
-                <div class="label py-0">
-                  <span class="label-text text-xs font-semibold uppercase tracking-wider">
-                    {t(@locale, :elem_width)}
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  name="width"
-                  value={@width}
-                  min="21"
-                  max="501"
-                  step="2"
-                  class="input input-bordered input-sm w-full"
-                  phx-change="set_width"
-                  phx-debounce="300"
-                />
-              </label>
-
-              <%!-- Generations input --%>
-              <label class="form-control w-full lg:w-32">
-                <div class="label py-0">
-                  <span class="label-text text-xs font-semibold uppercase tracking-wider">
-                    {t(@locale, :elem_generations)}
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  name="generations"
-                  value={@generations}
-                  min="10"
-                  max="500"
-                  class="input input-bordered input-sm w-full"
-                  phx-change="set_generations"
-                  phx-debounce="300"
-                />
-              </label>
-
-              <%!-- Initial state toggle --%>
-              <div class="form-control">
-                <div class="label py-0">
-                  <span class="label-text text-xs font-semibold uppercase tracking-wider">
-                    {t(@locale, :elem_initial)}
-                  </span>
-                </div>
-                <div class="join mt-auto">
-                  <button
-                    phx-click="set_initial"
-                    phx-value-type="single"
-                    class={"btn btn-sm join-item #{if @initial_type == "single", do: "btn-primary", else: "btn-ghost"}"}
-                  >
-                    {t(@locale, :elem_initial_single)}
-                  </button>
-                  <button
-                    phx-click="set_initial"
-                    phx-value-type="random"
-                    class={"btn btn-sm join-item #{if @initial_type == "random", do: "btn-primary", else: "btn-ghost"}"}
-                  >
-                    {t(@locale, :elem_initial_random)}
-                  </button>
-                </div>
+        <%!-- Main layout: canvas + controls --%>
+        <div class="flex flex-col lg:flex-row gap-6">
+          <%!-- Canvas area --%>
+          <div class="flex-1 min-w-0">
+            <div class="card bg-base-100 border border-base-300 shadow-lg">
+              <div class="card-body p-3" id="eca-wrapper" phx-update="ignore">
+                <canvas id="eca-canvas" phx-hook="ElementaryCAHook" class="rounded-lg"></canvas>
               </div>
+            </div>
+          </div>
 
-              <%!-- Action buttons --%>
-              <div class="form-control">
-                <div class="label py-0">
-                  <span class="label-text text-xs">&nbsp;</span>
-                </div>
-                <div class="flex gap-2 mt-auto">
+          <%!-- Control panel sidebar --%>
+          <div class="w-full lg:w-72 flex-shrink-0 flex flex-col gap-4">
+            <%!-- Controls --%>
+            <div class="card bg-base-100 border border-base-300 shadow-lg">
+              <div class="card-body p-4">
+                <h3 class="card-title text-sm font-semibold text-base-content/70 uppercase tracking-wider">
+                  {t(@locale, :sim_controls)}
+                </h3>
+
+                <%!-- Rule input --%>
+                <label class="form-control w-full mt-2">
+                  <div class="label py-0">
+                    <span class="label-text text-xs">{t(@locale, :elem_rule)} (0–255)</span>
+                  </div>
+                  <input
+                    type="number"
+                    name="rule"
+                    value={@rule}
+                    min="0"
+                    max="255"
+                    class="input input-bordered input-sm w-full"
+                    phx-change="set_rule"
+                    phx-debounce="300"
+                  />
+                </label>
+
+                <%!-- Action buttons --%>
+                <div class="grid grid-cols-2 gap-2 mt-3">
                   <button phx-click="generate" class="btn btn-primary btn-sm">
                     <.icon name="hero-play" class="size-4" />
                     {t(@locale, :elem_generate)}
@@ -148,81 +94,133 @@ defmodule AutomatonWeb.ElementaryLive do
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <%!-- Preset buttons --%>
-        <div class="card bg-base-100 border border-base-300 shadow-lg mb-6">
-          <div class="card-body p-4">
-            <h3 class="card-title text-sm font-semibold text-base-content/70 uppercase tracking-wider">
-              {t(@locale, :elem_presets)}
-            </h3>
-            <div class="flex flex-wrap gap-2 mt-2">
-              <button
-                phx-click="set_rule"
-                phx-value-rule="30"
-                class={"btn btn-sm #{if @rule == 30, do: "btn-primary", else: "btn-ghost"}"}
-              >
-                {t(@locale, :elem_rule_30)}
-              </button>
-              <button
-                phx-click="set_rule"
-                phx-value-rule="90"
-                class={"btn btn-sm #{if @rule == 90, do: "btn-primary", else: "btn-ghost"}"}
-              >
-                {t(@locale, :elem_rule_90)}
-              </button>
-              <button
-                phx-click="set_rule"
-                phx-value-rule="110"
-                class={"btn btn-sm #{if @rule == 110, do: "btn-primary", else: "btn-ghost"}"}
-              >
-                {t(@locale, :elem_rule_110)}
-              </button>
-              <button
-                phx-click="set_rule"
-                phx-value-rule="184"
-                class={"btn btn-sm #{if @rule == 184, do: "btn-primary", else: "btn-ghost"}"}
-              >
-                {t(@locale, :elem_rule_184)}
-              </button>
-            </div>
-          </div>
-        </div>
+            <%!-- Settings --%>
+            <div class="card bg-base-100 border border-base-300 shadow-lg">
+              <div class="card-body p-4">
+                <h3 class="card-title text-sm font-semibold text-base-content/70 uppercase tracking-wider">
+                  {t(@locale, :elem_settings)}
+                </h3>
 
-        <%!-- Rule table visualization --%>
-        <div class="card bg-base-100 border border-base-300 shadow-lg mb-6">
-          <div class="card-body p-4">
-            <h3 class="card-title text-sm font-semibold text-base-content/70 uppercase tracking-wider">
-              {t(@locale, :elem_rule_table)} — {t(@locale, :elem_rule)} {@rule}
-            </h3>
-            <div class="flex flex-wrap gap-3 mt-3 justify-center">
-              <%= for %{pattern: pattern, left: left, center: center, right: right, output: output} <- @rule_table do %>
-                <div class="flex flex-col items-center gap-1">
-                  <%!-- 3-cell input pattern --%>
-                  <div class="flex gap-px">
-                    <div class={"w-5 h-5 rounded-sm #{if left == 1, do: "bg-primary", else: "bg-base-300"}"} />
-                    <div class={"w-5 h-5 rounded-sm #{if center == 1, do: "bg-primary", else: "bg-base-300"}"} />
-                    <div class={"w-5 h-5 rounded-sm #{if right == 1, do: "bg-primary", else: "bg-base-300"}"} />
-                  </div>
-                  <%!-- Output cell --%>
-                  <div class={"w-5 h-5 rounded-sm border border-base-300 #{if output == 1, do: "bg-primary", else: "bg-base-300"}"} />
-                  <%!-- Pattern number --%>
-                  <span class="text-xs text-base-content/40 font-mono">{pattern}</span>
+                <div class="flex gap-3 mt-2">
+                  <label class="form-control flex-1">
+                    <div class="label py-0">
+                      <span class="label-text text-xs">{t(@locale, :elem_width)}</span>
+                    </div>
+                    <input
+                      type="number"
+                      name="width"
+                      value={@width}
+                      min="21"
+                      max="501"
+                      step="2"
+                      class="input input-bordered input-sm w-full"
+                      phx-change="set_width"
+                      phx-debounce="300"
+                    />
+                  </label>
+                  <label class="form-control flex-1">
+                    <div class="label py-0">
+                      <span class="label-text text-xs">{t(@locale, :elem_generations)}</span>
+                    </div>
+                    <input
+                      type="number"
+                      name="generations"
+                      value={@generations}
+                      min="10"
+                      max="500"
+                      class="input input-bordered input-sm w-full"
+                      phx-change="set_generations"
+                      phx-debounce="300"
+                    />
+                  </label>
                 </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
 
-        <%!-- Canvas --%>
-        <div class="card bg-base-100 border border-base-300 shadow-lg">
-          <div class="card-body p-4">
-            <canvas
-              id="eca-canvas"
-              phx-hook="ElementaryCAHook"
-              class="rounded-lg w-full"
-            />
+                <%!-- Initial state --%>
+                <div class="mt-3">
+                  <div class="label py-0">
+                    <span class="label-text text-xs">{t(@locale, :elem_initial)}</span>
+                  </div>
+                  <div class="join w-full mt-1">
+                    <button
+                      phx-click="set_initial"
+                      phx-value-type="single"
+                      class={"btn btn-sm join-item flex-1 #{if @initial_type == "single", do: "btn-primary", else: "btn-ghost"}"}
+                    >
+                      {t(@locale, :elem_initial_single)}
+                    </button>
+                    <button
+                      phx-click="set_initial"
+                      phx-value-type="random"
+                      class={"btn btn-sm join-item flex-1 #{if @initial_type == "random", do: "btn-primary", else: "btn-ghost"}"}
+                    >
+                      {t(@locale, :elem_initial_random)}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <%!-- Notable Rules --%>
+            <div class="card bg-base-100 border border-base-300 shadow-lg">
+              <div class="card-body p-4">
+                <h3 class="card-title text-sm font-semibold text-base-content/70 uppercase tracking-wider">
+                  {t(@locale, :elem_presets)}
+                </h3>
+                <div class="flex flex-col gap-1 mt-2">
+                  <button
+                    phx-click="set_rule"
+                    phx-value-rule="30"
+                    class={"btn btn-sm justify-start #{if @rule == 30, do: "btn-primary", else: "btn-ghost"}"}
+                  >
+                    {t(@locale, :elem_rule_30)}
+                  </button>
+                  <button
+                    phx-click="set_rule"
+                    phx-value-rule="90"
+                    class={"btn btn-sm justify-start #{if @rule == 90, do: "btn-primary", else: "btn-ghost"}"}
+                  >
+                    {t(@locale, :elem_rule_90)}
+                  </button>
+                  <button
+                    phx-click="set_rule"
+                    phx-value-rule="110"
+                    class={"btn btn-sm justify-start #{if @rule == 110, do: "btn-primary", else: "btn-ghost"}"}
+                  >
+                    {t(@locale, :elem_rule_110)}
+                  </button>
+                  <button
+                    phx-click="set_rule"
+                    phx-value-rule="184"
+                    class={"btn btn-sm justify-start #{if @rule == 184, do: "btn-primary", else: "btn-ghost"}"}
+                  >
+                    {t(@locale, :elem_rule_184)}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <%!-- Rule table visualization --%>
+            <div class="card bg-base-100 border border-base-300 shadow-lg">
+              <div class="card-body p-4">
+                <h3 class="card-title text-sm font-semibold text-base-content/70 uppercase tracking-wider">
+                  {t(@locale, :elem_rule_table)} — {@rule}
+                </h3>
+                <div class="grid grid-cols-4 gap-2 mt-3">
+                  <%= for %{pattern: pattern, left: left, center: center, right: right, output: output} <- @rule_table do %>
+                    <div class="flex flex-col items-center gap-1">
+                      <div class="flex gap-px">
+                        <div class={"w-3.5 h-3.5 rounded-sm #{if left == 1, do: "bg-primary", else: "bg-base-300"}"} />
+                        <div class={"w-3.5 h-3.5 rounded-sm #{if center == 1, do: "bg-primary", else: "bg-base-300"}"} />
+                        <div class={"w-3.5 h-3.5 rounded-sm #{if right == 1, do: "bg-primary", else: "bg-base-300"}"} />
+                      </div>
+                      <div class={"w-3.5 h-3.5 rounded-sm border border-base-300 #{if output == 1, do: "bg-primary", else: "bg-base-300"}"} />
+                      <span class="text-[10px] text-base-content/40 font-mono">{pattern}</span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

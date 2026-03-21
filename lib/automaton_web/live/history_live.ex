@@ -18,7 +18,7 @@ defmodule AutomatonWeb.HistoryLive do
           <div class="max-w-3xl mx-auto">
             <div class="badge badge-primary badge-outline gap-2 mb-6 px-4 py-3">
               <.icon name="hero-clock" class="size-4" />
-              <span class="text-sm font-medium">1940 &mdash; present</span>
+              <span class="text-sm font-medium">1940 &mdash; {t(@locale, :present)}</span>
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
               <span class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">

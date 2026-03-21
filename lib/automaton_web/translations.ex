@@ -42,6 +42,7 @@ defmodule AutomatonWeb.Translations do
       home_concept_generation_desc: "Each step in time where all cells are updated simultaneously according to the rules.",
 
       # History page
+      present: "present",
       history_title: "The History of Cellular Automata",
       history_subtitle: "A journey from mathematical curiosity to computational universe",
 
@@ -124,6 +125,7 @@ defmodule AutomatonWeb.Translations do
       elem_description:
         "Explore Wolfram's 256 one-dimensional rules. Each rule defines how a cell's state changes based on itself and its two neighbors.",
       elem_rule: "Rule",
+      elem_settings: "Settings",
       elem_generate: "Generate",
       elem_clear: "Clear",
       elem_width: "Width",
@@ -133,10 +135,10 @@ defmodule AutomatonWeb.Translations do
       elem_initial_random: "Random",
       elem_rule_table: "Rule Table",
       elem_presets: "Notable Rules",
-      elem_rule_30: "Rule 30 — Chaotic (Class 3)",
-      elem_rule_90: "Rule 90 — Sierpinski Triangle",
-      elem_rule_110: "Rule 110 — Turing Complete (Class 4)",
-      elem_rule_184: "Rule 184 — Traffic Model",
+      elem_rule_30: "Rule 30 — Chaotic",
+      elem_rule_90: "Rule 90 — Sierpinski",
+      elem_rule_110: "Rule 110 — Universal",
+      elem_rule_184: "Rule 184 — Traffic",
       elem_rule_0: "Rule 0 — All Die",
       elem_rule_255: "Rule 255 — All Live",
 
@@ -185,6 +187,7 @@ defmodule AutomatonWeb.Translations do
       home_concept_generation_desc: "Cada passo no tempo onde todas as células são atualizadas simultaneamente de acordo com as regras.",
 
       # History page
+      present: "presente",
       history_title: "A História dos Autômatos Celulares",
       history_subtitle: "Uma jornada da curiosidade matemática ao universo computacional",
 
@@ -267,6 +270,7 @@ defmodule AutomatonWeb.Translations do
       elem_description:
         "Explore as 256 regras unidimensionais de Wolfram. Cada regra define como o estado de uma célula muda com base nela mesma e em seus dois vizinhos.",
       elem_rule: "Regra",
+      elem_settings: "Configurações",
       elem_generate: "Gerar",
       elem_clear: "Limpar",
       elem_width: "Largura",
@@ -276,10 +280,10 @@ defmodule AutomatonWeb.Translations do
       elem_initial_random: "Aleatório",
       elem_rule_table: "Tabela de Regras",
       elem_presets: "Regras Notáveis",
-      elem_rule_30: "Regra 30 — Caótica (Classe 3)",
-      elem_rule_90: "Regra 90 — Triângulo de Sierpinski",
-      elem_rule_110: "Regra 110 — Turing Completa (Classe 4)",
-      elem_rule_184: "Regra 184 — Modelo de Tráfego",
+      elem_rule_30: "Regra 30 — Caótica",
+      elem_rule_90: "Regra 90 — Sierpinski",
+      elem_rule_110: "Regra 110 — Universal",
+      elem_rule_184: "Regra 184 — Tráfego",
       elem_rule_0: "Regra 0 — Todas Morrem",
       elem_rule_255: "Regra 255 — Todas Vivem",
 

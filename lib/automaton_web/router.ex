@@ -21,7 +21,6 @@ defmodule AutomatonWeb.Router do
       live "/", HomeLive
       live "/history", HistoryLive
       live "/simulator", SimulatorLive
-      live "/elementary", ElementaryLive
     end
   end
 end

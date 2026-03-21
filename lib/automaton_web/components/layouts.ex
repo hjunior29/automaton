@@ -41,11 +41,6 @@ defmodule AutomatonWeb.Layouts do
                 {t(@locale, :nav_simulator)}
               </.link>
             </li>
-            <li>
-              <.link navigate="/elementary" class="text-sm font-medium">
-                {t(@locale, :nav_elementary)}
-              </.link>
-            </li>
           </ul>
         </div>
 
@@ -95,9 +90,6 @@ defmodule AutomatonWeb.Layouts do
               </li>
               <li>
                 <.link navigate="/simulator">{t(@locale, :nav_simulator)}</.link>
-              </li>
-              <li>
-                <.link navigate="/elementary">{t(@locale, :nav_elementary)}</.link>
               </li>
             </ul>
           </div>

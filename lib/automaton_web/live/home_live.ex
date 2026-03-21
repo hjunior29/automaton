@@ -117,7 +117,7 @@ defmodule AutomatonWeb.HomeLive do
       <%!-- Feature Cards --%>
       <section class="py-20 bg-base-200">
         <div class="container mx-auto px-6">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <%!-- History Card --%>
             <.link navigate="/history" class="group">
               <div class="card bg-base-100 border border-base-300 shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:border-primary/30 hover:-translate-y-1">
@@ -162,27 +162,6 @@ defmodule AutomatonWeb.HomeLive do
               </div>
             </.link>
 
-            <%!-- Elementary CA Card --%>
-            <.link navigate="/elementary" class="group">
-              <div class="card bg-base-100 border border-base-300 shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:border-accent/30 hover:-translate-y-1">
-                <div class="card-body p-8">
-                  <div class="bg-accent/10 p-3 rounded-xl w-fit mb-4 group-hover:bg-accent/20 transition-colors">
-                    <.icon name="hero-cpu-chip" class="size-7 text-accent" />
-                  </div>
-                  <h3 class="card-title text-xl font-bold text-base-content mb-2">
-                    {t(@locale, :home_feature_3_title)}
-                  </h3>
-                  <p class="text-base-content/60 leading-relaxed">
-                    {t(@locale, :home_feature_3_desc)}
-                  </p>
-                  <div class="card-actions justify-end mt-4">
-                    <span class="text-accent text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                      <.icon name="hero-arrow-right" class="size-4" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </.link>
           </div>
         </div>
       </section>
